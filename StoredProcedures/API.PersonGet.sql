@@ -19,7 +19,7 @@ BEGIN
     SELECT
         o.ID as PersonID
        ,p.Name as PersonName
-       ,a.Balance as AccountBalance
+       ,atr.Balance as AccountBalance
     FROM dbo.TObject o
         JOIN dbo.TPerson p ON p.ID = o.ID
         OUTER APPLY
@@ -51,7 +51,7 @@ BEGIN
                     GROUP BY cd.Name
                     FOR XML PATH(''), TYPE
                 ) AS nvarchar(4000)), 1, 2, ''), '') as Balance
-        ) a
+        ) atr
     WHERE p.ID = @PersonID
 END
 --EXEC API.PersonGet @PersonID = 561220
