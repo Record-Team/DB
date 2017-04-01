@@ -23,7 +23,7 @@ BEGIN
     SELECT
         f.ID as FundID
        ,f.FounderID
-       ,otl.Title as FounderTitle
+       ,otl.Title as FounderTitle --ToDo FounderName
        ,f.Caption as FundCaption
        ,f.[Description] as FundDescription
        ,ISNULL(sd.Name, 'Created') as FundStateName
