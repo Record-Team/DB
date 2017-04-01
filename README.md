@@ -1,2 +1,2 @@
-# DB
-Процедуры
+# Record-Team. DB
+Процедуры для LazyAPI
