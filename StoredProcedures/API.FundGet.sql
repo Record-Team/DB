@@ -16,7 +16,7 @@ BEGIN
 
     DECLARE
         @TypeID_AccountFund bigint = dbo.TypeIDByName('AccountFund')
-       ,@StateID_Rejected bigint = dbo.DirectoryIDByOwner(NULL, 'StateSchemeInvite', NULL, 'State', 'Rejected')
+       ,@StateID_Accepted bigint = dbo.DirectoryIDByOwner(NULL, 'StateSchemeInvite', NULL, 'State', 'Rejected')
 
     SELECT
         f.ID as FundID
@@ -27,7 +27,6 @@ BEGIN
        ,CAST(atrin.Amount as nvarchar(10)) + ' ' + cd.Name as FundAmount
        ,CAST(NULLIF(ISNULL(atrin.Amount, 0) - ISNULL(atrout.Amount, 0), 0) as nvarchar(10)) + ' ' + cd.Name as FundBalance
        ,ISNULL(inv.InviteCount, 0) as InviteCount
-       ,ISNULL(inv.InviteRejected, 0) as InviteRejected
     FROM dbo.TFund f
         OUTER APPLY dbo.ObjectTitleList(f.FounderID) otl
         LEFT JOIN dbo.TAccount a
@@ -51,12 +50,11 @@ BEGIN
         OUTER APPLY
         (
             SELECT
-                COUNT(i.ID) as [InviteCount]
-               ,SUM(IIF(o.StateID = @StateID_Rejected, 1, 0)) as InviteRejected
+                COUNT(i.ID) as InviteCount
             FROM dbo.TInvite i
                 JOIN dbo.TObject o ON o.ID = i.ID
             WHERE i.FundID = f.ID
-                AND o.StateID IS NOT NULL
+                AND o.StateID = @StateID_Accepted
         ) inv
     WHERE f.ID = @FundID
 END

@@ -23,6 +23,7 @@ BEGIN
         JOIN dbo.TPersonIdentifier i ON i.ID = o.ID
         JOIN dbo.TPerson p ON p.ID = i.PersonID
     WHERE o.TypeID = @TypeID_PersonLogin
+        AND i.Identifier = @Identifier
 
     IF @PersonID IS NULL
     BEGIN
@@ -32,4 +33,4 @@ BEGIN
            ,@p1 = @Identifier
     END
 END
---EXEC API.
+--EXEC API.PersonLogin
