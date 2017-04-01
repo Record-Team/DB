@@ -26,4 +26,15 @@ BEGIN
        ,@Caption = @FundCaption
        ,@Description = @FundDescription
 END
---EXEC API.FundAdd
+/*
+DECLARE @FundID bigint
+
+EXEC API.FundAdd
+    @FundID = @FundID OUT
+   ,@FundTypeID = 561277
+   ,@FundCaption = '@FundCaption'
+   ,@FundDescription = '@FundDescription'
+   ,@PersonID = 561360
+
+SELECT @FundID as [@FundID]
+*/

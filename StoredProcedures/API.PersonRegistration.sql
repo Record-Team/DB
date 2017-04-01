@@ -9,10 +9,8 @@ GO
 --------- Framework "Record" (R.Valiullin mailto:vrafael@mail.ru) ---------
 CREATE PROC API.PersonRegistration
     @PersonID bigint = NULL OUTPUT
+   ,@PersonName nvarchar(4000)
    ,@Identifier nvarchar(4000)
-   ,@FirstName nvarchar(4000) = NULL
-   ,@MiddleName nvarchar(4000) = NULL
-   ,@LastName nvarchar(4000) = NULL
 AS
 BEGIN
     SET NOCOUNT ON
@@ -20,10 +18,12 @@ BEGIN
     DECLARE
         @TypeID_PersonLogin bigint = dbo.TypeIDByName('PersonLogin')
 
-    --IF LEN(LTRIM(RTRIM(@Identifier))) = 0
-    --BEGIN
-    --    EXEC 
-    --END
+    IF LEN(LTRIM(RTRIM(@Identifier))) = 0
+    BEGIN
+        EXEC dbo.Error
+            @ProcID = @@PROCID
+           ,@Message = 'Запрещено регистрироваться по пустому идентификатору!'
+    END
 
     IF EXISTS
     (
@@ -47,9 +47,7 @@ BEGIN
        --,@TypeID = 
        ,@TypeName = 'Person'
        ,@StateID = NULL
-       ,@FirstName = @FirstName
-       ,@MiddleName = @MiddleName
-       ,@LastName = @LastName
+       ,@Name = @PersonName
 
     EXEC dbo.[PersonIdentifierSet]
         @ID = NULL
@@ -66,9 +64,7 @@ DECLARE @PersonID bigint
 EXEC API.PersonRegistration
     @PersonID = @PersonID OUT
    ,@Identifier = 'iivanov'
-   ,@FirstName = 'Иван'
-   ,@MiddleName = 'Иванович'
-   ,@LastName = 'Иванов'
+   ,@PersonName = 'Иван'
 
 SELECT @PersonID as [@PersonID]
 */
