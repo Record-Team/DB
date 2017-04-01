@@ -1,13 +1,13 @@
-﻿IF OBJECT_ID('API.PersonRegistration', 'P') IS NOT NULL
+﻿IF OBJECT_ID('API.PersonRegistration', 'P') IS NULL
 BEGIN
-    DROP PROC API.PersonRegistration
+    EXEC('CREATE PROC API.PersonRegistration AS BEGIN RETURN 0 END')
 END
 GO
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 GO
 --------- Framework "Record" (R.Valiullin mailto:vrafael@mail.ru) ---------
-CREATE PROC API.PersonRegistration
+ALTER PROC API.PersonRegistration
     @PersonID bigint = NULL OUTPUT
    ,@PersonName nvarchar(4000)
    ,@Identifier nvarchar(4000)
@@ -39,6 +39,8 @@ BEGIN
            ,@Message = 'Логин %s уже зарегистрирован!'
            ,@p1 = @Identifier
     END
+
+    SET @PersonName = ISNULL(@PersonName, @Identifier) -- Если имя не указано, используем логин
 
     BEGIN TRAN
 
