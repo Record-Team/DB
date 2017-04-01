@@ -26,8 +26,8 @@ BEGIN
        ,f.[Description] as FundDescription
        ,CAST(atrin.Amount as nvarchar(10)) + ' ' + cd.Name as FundAmount
        ,CAST(NULLIF(ISNULL(atrin.Amount, 0) - ISNULL(atrout.Amount, 0), 0) as nvarchar(10)) + ' ' + cd.Name as FundBalance
-       ,inv.InviteCount
-       ,inv.InviteRejected
+       ,ISNULL(inv.InviteCount, 0) as InviteCount
+       ,ISNULL(inv.InviteRejected, 0) as InviteRejected
     FROM dbo.TFund f
         OUTER APPLY dbo.ObjectTitleList(f.FounderID) otl
         LEFT JOIN dbo.TAccount a
@@ -60,4 +60,4 @@ BEGIN
         ) inv
     WHERE f.ID = @FundID
 END
---EXEC API.FundGet @FundID = 
+--EXEC API.FundGet @FundID = 561345, @PersonID = 561220
