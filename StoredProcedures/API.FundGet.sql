@@ -44,7 +44,8 @@ BEGIN
         LEFT JOIN dbo.TDirectory sd ON sd.ID = o.StateID
         OUTER APPLY dbo.ObjectTitleList(f.FounderID) otl
         LEFT JOIN dbo.TAccount a
-            JOIN dbo.TObject ao ON a.ID = ao.ID AND ao.TypeID = @TypeID_AccountFund
+            JOIN dbo.TObject ao ON a.ID = ao.ID
+                AND ao.TypeID = @TypeID_AccountFund
             JOIN dbo.TDirectory cd ON cd.ID = a.CurrencyID
             OUTER APPLY
             (
