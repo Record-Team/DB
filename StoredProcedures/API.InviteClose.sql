@@ -34,7 +34,7 @@ BEGIN
             i.ID
            ,o.StateID
         FROM dbo.TInvite i
-            JOIN dbo.TObject o ON o.ID = i.ID
+            JOIN dbo.TObject (NOLOCK) o ON o.ID = i.ID
         WHERE i.FundID = @FundID
             AND i.InviteeID = @InviteeID
             AND o.StateID IN (@StateID_Sended, @StateID_Accepted)

@@ -26,6 +26,9 @@ BEGIN
        ,@TypeID_AccountFund bigint = dbo.TypeIDByName('AccountFund')
        ,@StateID_Sended bigint = dbo.DirectoryIDByOwner(NULL, 'StateSchemeInvite', NULL, 'State', 'Sended')
        ,@StateID_Accepted bigint = dbo.DirectoryIDByOwner(NULL, 'StateSchemeInvite', NULL, 'State', 'Accepted')
+       ,@TypeID_TransferIncome bigint = dbo.TypeIDByName('TransferIncome')
+       ,@TransferIncomeID bigint
+       ,@TransferToFundID bigint
 
     IF @CurrencyID IS NULL
     BEGIN
@@ -124,15 +127,18 @@ BEGIN
 
     -- Делаем перевод с виртуального счета на личный
     EXEC dbo.TransferSet
-        @ID = NULL
+        @ID = @TransferIncomeID OUT
        ,@TypeName = 'TransferIncome'
        ,@StateID = NULL
        ,@SourceID = @AccountVirtualDummyID
        ,@TargetID = @AccountPersonalID
        ,@Amount = @Amount
        ,@CurrencyID = @CurrencyID
-        
 
+    -- Переводим в обработан
+    EXEC dbo.ObjectStateGo
+        @ID = @TransferIncomeID
+       ,@StateName = 'Processed' --ToDo Ожидает обработки (Pending)
 
     -- Если счет фонда отсутствует - создаем
     IF @AccountFundID IS NULL
@@ -144,6 +150,26 @@ BEGIN
            ,@OwnerID = @FundID
     END
 
+    -- Делаем перевод с виртуального счета на личный
+    EXEC dbo.TransferSet
+        @ID = @TransferToFundID OUT
+       ,@TypeName = 'TransferToFund'
+       ,@StateID = NULL
+       ,@SourceID = @AccountPersonalID
+       ,@TargetID = @AccountFundID
+       ,@Amount = @Amount
+       ,@CurrencyID = @CurrencyID
+
+    -- Переводим в обработан
+    EXEC dbo.ObjectStateGo
+        @ID = @TransferToFundID
+       ,@StateName = 'Processed' --ToDo Ожидает обработки (Pending)
+
     COMMIT
 END
---EXEC API.FundPay
+/*
+EXEC API.FundPay
+    @FundID
+   ,@PersonID
+   ,@Amount
+*/
