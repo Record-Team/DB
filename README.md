@@ -29,3 +29,11 @@
 Закрытие фонда - API.FundFinish
     @FundID - ID фонда
    ,@PersonID - ID персоны
+   
+Перевод денег в фонд - API.FundPay
+    @FundID - ID фонда
+   ,@PersonID - ID персоны
+   ,@Amount - сумма
+   
+ента событий фонда - API.FundEvents
+	@FundID - ID фонда

@@ -28,9 +28,9 @@ BEGIN
        ,@Caption = @FundCaption
        ,@Description = @FundDescription
 
-    EXEC dbo.ObjectTransitExec
+    EXEC dbo.ObjectStateGo
         @ID = @FundID
-       ,@TransitName = 'FundOpen'
+       ,@StateName = 'Opened'
 
     COMMIT
 END
