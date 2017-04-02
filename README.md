@@ -1,5 +1,5 @@
 # Record-Team. DB
-## ##ProcAPI## - бэкенд для LazyAPI
+## **ProcAPI** - бэкенд для LazyAPI
 - API.FundTypes - типы фондов
 - API.PersonGet - инфо о персоне
 - API.Funds - список доступных фондов
