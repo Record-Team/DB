@@ -14,12 +14,9 @@ ALTER PROC API.FundAdd
    ,@FundCaption nvarchar(4000)
    ,@FundDescription nvarchar(max) = NULL
    ,@PersonID bigint
-   ,@CurrencyID bigint = NULL
 AS
 BEGIN
     SET NOCOUNT ON
-
-    SET @CurrencyID = ISNULL(@CurrencyID, dbo.DirectoryIDByName(NULL, 'Currency', 'RUB'))
 
     BEGIN TRAN
 
@@ -30,15 +27,6 @@ BEGIN
        ,@FounderID = @PersonID
        ,@Caption = @FundCaption
        ,@Description = @FundDescription
-
-    -- Добавляем счет фонду
-    EXEC dbo.AccountSet
-        @ID = NULL
-       --,@TypeID
-       ,@TypeName = 'AccountFund'
-       --,@StateID
-       ,@CurrencyID = @CurrencyID
-       ,@OwnerID = @FundID
 
     EXEC dbo.ObjectTransitExec
         @ID = @FundID
