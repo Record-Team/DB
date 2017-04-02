@@ -19,6 +19,7 @@ BEGIN
        ,p.Name as PersonName
     FROM dbo.TObject o
         JOIN dbo.TPerson p ON p.ID = o.ID
+    WHERE p.ID <> @PersonID
     ORDER BY PersonName
 END
 --EXEC API.PersonContacts @PersonID = NULL

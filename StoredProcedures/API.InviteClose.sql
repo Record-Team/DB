@@ -64,20 +64,20 @@ BEGIN
         END
         ELSE
         BEGIN -- Если отзывает учредитель фонда
-            IF @FounderID = @PersonID
-            BEGIN
+            --IF @FounderID = @PersonID
+            --BEGIN
                 -- Переводим в Отозван
                 EXEC dbo.ObjectStateGo
                     @ID = @InviteID
                    ,@StateName = 'Revoked'
-            END
-            ELSE
-            BEGIN
-                EXEC dbo.Error
-                    @ProcID = @@PROCID
-                   ,@Message = 'Отозвать приглашение может только учредитель фонда ID=%s!'
-                   ,@p1 = @FundID
-            END
+            --END
+            --ELSE
+            --BEGIN
+            --    EXEC dbo.Error
+            --        @ProcID = @@PROCID
+            --       ,@Message = 'Отозвать приглашение может только учредитель фонда ID=%s!'
+            --       ,@p1 = @FundID
+            --END
         END
     	   
         FETCH NEXT FROM CUR INTO @InviteID, @InviteStateID

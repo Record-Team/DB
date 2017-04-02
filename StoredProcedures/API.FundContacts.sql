@@ -35,6 +35,7 @@ BEGIN
                 AND o.StateID IN (@StateID_Sended, @StateID_Accepted)
             ORDER BY i.ID DESC
         ) inv
+    WHERE p.ID <> @PersonID
     ORDER BY PersonName
 END
 --EXEC API.FundContacts @FundID = 561345, @PersonID = NULL
