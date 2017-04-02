@@ -21,3 +21,8 @@
     @FundID - ID фонда
    ,@PersonID - ID персоны
 	
+	
+Закрыть приглашение - API.InviteClose
+    @FundID - ID фонда
+   ,@InviteeID - ID приглашенного
+   ,@PersonID - ID персоны

@@ -18,14 +18,19 @@ BEGIN
 
     DECLARE 
         @InviteID bigint
+       ,@StateID_Sended bigint = dbo.DirectoryIDByOwner(NULL, 'StateSchemeInvite', NULL, 'State', 'Sended')
+       ,@StateID_Accepted bigint = dbo.DirectoryIDByOwner(NULL, 'StateSchemeInvite', NULL, 'State', 'Accepted')
+       ,@StateID_Rejected bigint = dbo.DirectoryIDByOwner(NULL, 'StateSchemeInvite', NULL, 'State', 'Rejected')
 
-    -- Если пользователь уже получал уведомление, то не делаем повторное приглашение 
+    -- Если пользователь уже получил приглашение, то не делаем повторное
     IF EXISTS
     (
         SELECT 1
-        FROM dbo.TInvite i
+        FROM dbo.TInvite (NOLOCK) i
+            JOIN dbo.TObject (NOLOCK) o ON o.ID = i.ID
         WHERE i.FundID = @FundID
             AND i.InviteeID = @InviteeID
+            AND o.StateID IN (@StateID_Sended, @StateID_Accepted, @StateID_Rejected)
     )
     BEGIN
         RETURN 0

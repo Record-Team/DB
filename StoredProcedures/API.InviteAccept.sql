@@ -21,8 +21,8 @@ BEGIN
        
     SELECT
         @InviteID = i.ID
-    FROM dbo.TInvite i
-        JOIN dbo.TObject o ON o.ID = i.ID
+    FROM dbo.TInvite (NOLOCK) i
+        JOIN dbo.TObject (NOLOCK) o ON o.ID = i.ID
     WHERE i.FundID = @FundID
         AND i.InviteeID = @PersonID
         AND o.StateID = @StateID_Sended
