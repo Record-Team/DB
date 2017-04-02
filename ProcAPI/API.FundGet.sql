@@ -31,14 +31,14 @@ BEGIN
        ,CAST(atrin.Amount as nvarchar(10)) + ' ' + cd.Name as FundAmount
        ,CAST(NULLIF(ISNULL(atrin.Amount, 0) - ISNULL(atrout.Amount, 0), 0) as nvarchar(10)) + ' ' + cd.Name as FundBalance
        ,ISNULL(invall.InviteCount, 0) as InviteCount
-       ,CAST(1 as bit) as ButtonFinish
-       ,CAST(1 as bit) as ButtonInviteAccept
-       ,CAST(1 as bit) as ButtonInviteReject
-       ,CAST(1 as bit) as ButtonPay
-       --,CAST(IIF(@PersonID = f.FounderID AND o.StateID = @StateID_Opened, 1, 0) as bit) as ButtonFinish
-       --,CAST(IIF(invpers.InviteStateID = @StateID_Sended, 1, 0) as bit) as ButtonInviteAccept
-       --,CAST(IIF(invpers.InviteStateID IN (@StateID_Sended, @StateID_Accepted), 1, 0) as bit) as ButtonInviteReject
-       --,CAST(IIF(o.StateID = @StateID_Opened, 1, 0) as bit) as ButtonPay
+       --,CAST(1 as bit) as ButtonFinish
+       --,CAST(1 as bit) as ButtonInviteAccept
+       --,CAST(1 as bit) as ButtonInviteReject
+       --,CAST(1 as bit) as ButtonPay
+       ,CAST(IIF(@PersonID = f.FounderID AND o.StateID = @StateID_Opened, 1, 0) as bit) as ButtonFinish
+       ,CAST(IIF(invpers.InviteStateID = @StateID_Sended, 1, 0) as bit) as ButtonInviteAccept
+       ,CAST(IIF(invpers.InviteStateID IN (@StateID_Sended, @StateID_Accepted), 1, 0) as bit) as ButtonInviteReject
+       ,CAST(IIF(o.StateID = @StateID_Opened, 1, 0) as bit) as ButtonPay
     FROM dbo.TFund f
         JOIN dbo.TObject o ON o.ID = f.ID
         LEFT JOIN dbo.TDirectory sd ON sd.ID = o.StateID
