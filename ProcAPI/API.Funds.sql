@@ -8,7 +8,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 --------- Framework "Record" (R.Valiullin mailto:vrafael@mail.ru) ---------
 ALTER PROC API.Funds
-    @PersonID bigint = 561220
+    @PersonID bigint
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -62,4 +62,4 @@ BEGIN
         ON a.OwnerID = f.ID    
     ORDER BY f.ID
 END
---EXEC API.Funds @PersonID = 561220
+--EXEC API.Funds @PersonID = 561360
